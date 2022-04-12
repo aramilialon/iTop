@@ -22,34 +22,34 @@
  * @license     http://opensource.org/licenses/AGPL-3.0
  */
 Dict::Add('IT IT', 'Italian', 'Italiano', array(
-	'Core:DeletedObjectLabel' => '%1s (deleted)~~',
-	'Core:DeletedObjectTip' => 'The object has been deleted on %1$s (%2$s)~~',
+	'Core:DeletedObjectLabel' => '%1s (eliminato)~~',
+	'Core:DeletedObjectTip' => 'L\'oggetto e\' stato eliminato da %1$s (%2$s)~~',
 
-	'Core:UnknownObjectLabel' => 'Object not found (class: %1$s, id: %2$d)~~',
-	'Core:UnknownObjectTip' => 'The object could not be found. It may have been deleted some time ago and the log has been purged since.~~',
+	'Core:UnknownObjectLabel' => 'Oggetto non trovato (class: %1$s, id: %2$d)~~',
+	'Core:UnknownObjectTip' => 'Questo oggetto non puo\' essere trovato. Forse e\' stato eliminato tempo fa e i log sono stati cancellati.~~',
 
-	'Core:UniquenessDefaultError' => 'Uniqueness rule \'%1$s\' in error~~',
+	'Core:UniquenessDefaultError' => 'Regola di unicita\' \'%1$s\' in errore~~',
 
 	'Core:AttributeLinkedSet' => 'Array di oggetti',
 	'Core:AttributeLinkedSet+' => 'Ogni tipo di oggetto della stessa classe o sottoclasse',
 
-	'Core:AttributeLinkedSetDuplicatesFound' => 'Duplicates in the \'%1$s\' field : %2$s~~',
+	'Core:AttributeLinkedSetDuplicatesFound' => 'Duplicati nei campi \'%1$s\': %2$s~~',
 
 	'Core:AttributeDashboard' => 'Dashboard~~',
 	'Core:AttributeDashboard+' => '',
 
-	'Core:AttributePhoneNumber' => 'Phone number~~',
+	'Core:AttributePhoneNumber' => 'Numero di telefono~~',
 	'Core:AttributePhoneNumber+' => '',
 
-	'Core:AttributeObsolescenceDate' => 'Obsolescence date~~',
+	'Core:AttributeObsolescenceDate' => 'Data di obsolescenza~~',
 	'Core:AttributeObsolescenceDate+' => '',
 
-	'Core:AttributeTagSet' => 'List of tags~~',
+	'Core:AttributeTagSet' => 'Lista dei tag~~',
 	'Core:AttributeTagSet+' => '',
-	'Core:AttributeSet:placeholder' => 'click to add~~',
+	'Core:AttributeSet:placeholder' => 'clicca per aggiungere~~',
 	'Core:AttributeClassAttCodeSet:ItemLabel:AttributeFromClass' => '%1$s (%2$s)~~',
-	'Core:AttributeClassAttCodeSet:ItemLabel:AttributeFromOneChildClass' => '%1$s (%2$s from %3$s)~~',
-	'Core:AttributeClassAttCodeSet:ItemLabel:AttributeFromSeveralChildClasses' => '%1$s (%2$s from child classes)~~',
+	'Core:AttributeClassAttCodeSet:ItemLabel:AttributeFromOneChildClass' => '%1$s (%2$s da %3$s)~~',
+	'Core:AttributeClassAttCodeSet:ItemLabel:AttributeFromSeveralChildClasses' => '%1$s (%2$s dalle classi figlie)~~',
 
 	'Core:AttributeCaseLog' => 'Log~~',
 	'Core:AttributeCaseLog+' => '',
@@ -63,25 +63,25 @@ Dict::Add('IT IT', 'Italian', 'Italiano', array(
 	'Core:AttributeInteger' => 'Integer',
 	'Core:AttributeInteger+' => 'Valore numerico (non può essere negativo)',
 
-	'Core:AttributeDecimal' => 'Decimal',
+	'Core:AttributeDecimal' => 'Decimale',
 	'Core:AttributeDecimal+' => 'valore decimale (non può essere negativo)',
 
 	'Core:AttributeBoolean' => 'Booleano',
 	'Core:AttributeBoolean+' => '',
 	'Core:AttributeBoolean/Value:null' => '',
-	'Core:AttributeBoolean/Value:yes' => 'Yes~~',
+	'Core:AttributeBoolean/Value:yes' => 'Si~~',
 	'Core:AttributeBoolean/Value:no' => 'No~~',
 
-	'Core:AttributeArchiveFlag' => 'Archive flag~~',
-	'Core:AttributeArchiveFlag/Value:yes' => 'Yes~~',
-	'Core:AttributeArchiveFlag/Value:yes+' => 'This object is visible only in archive mode~~',
+	'Core:AttributeArchiveFlag' => 'Flag di archivio~~',
+	'Core:AttributeArchiveFlag/Value:yes' => 'Si~~',
+	'Core:AttributeArchiveFlag/Value:yes+' => 'Questo oggetto e\' visibile solo in modalita\' archivio~~',
 	'Core:AttributeArchiveFlag/Value:no' => 'No~~',
-	'Core:AttributeArchiveFlag/Label' => 'Archived~~',
+	'Core:AttributeArchiveFlag/Label' => 'Archiviato~~',
 	'Core:AttributeArchiveFlag/Label+' => '',
-	'Core:AttributeArchiveDate/Label' => 'Archive date~~',
+	'Core:AttributeArchiveDate/Label' => 'Data di archiviazione~~',
 	'Core:AttributeArchiveDate/Label+' => '',
 
-	'Core:AttributeObsolescenceFlag' => 'Obsolescence flag~~',
+	'Core:AttributeObsolescenceFlag' => 'Flag di obsolescenza~~',
 	'Core:AttributeObsolescenceFlag/Value:yes' => 'Yes~~',
 	'Core:AttributeObsolescenceFlag/Value:yes+' => 'This object is excluded from the impact analysis, and hidden from search results~~',
 	'Core:AttributeObsolescenceFlag/Value:no' => 'No~~',
