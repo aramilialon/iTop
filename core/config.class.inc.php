@@ -886,7 +886,7 @@ class Config
 			'type' => 'string',
 			'description' => 'Regular expression to validate/detect the format of an URL (URL attributes and Wiki formatting for Text attributes)',
 			'default' => /** @lang RegExp */
-			'(https?|ftp)\://([a-zA-Z0-9+!*(),;?&=\$_.-]+(\:[a-zA-Z0-9+!*(),;?&=\$_.-]+)?@)?([a-zA-Z0-9-.]{3,})(\:[0-9]{2,5})?(/([a-zA-Z0-9:%+\$_-]\.?)+)*/?(\?[a-zA-Z+&\$_.-][a-zA-Z0-9;:[\]@&%=+/\$_.-]*)?(#[a-zA-Z_.-][a-zA-Z0-9+\$_.-]*)?',
+			'(https?|ftp)\://([a-zA-Z0-9+!*(),;?&=\$_.-]+(\:[a-zA-Z0-9+!*(),;?&=\$_.-]+)?@)?([a-zA-Z0-9-.]{3,})(\:[0-9]{2,5})?(/([a-zA-Z0-9:%+\$_-]\.?)+)*/?(\?[a-zA-Z+&\$_.-][a-zA-Z0-9;:[\]@&%=+/\$_.-]*)?(#[a-zA-Z0-9_.-][a-zA-Z0-9+\$_.-]*)?',
 			// SCHEME....... USER....................... PASSWORD.......................... HOST/IP........... PORT.......... PATH......................... GET............................................ ANCHOR..........................
 			// Example: http://User:passWord@127.0.0.1:8888/patH/Page.php?arrayArgument[2]=something:blah20#myAnchor
 			// RegExp source: http://www.php.net/manual/fr/function.preg-match.php#93824
@@ -1008,8 +1008,8 @@ class Config
 			'type' => 'integer',
 			'description' => 'Maximum length of the history table (in the "History" tab on each object) before it gets truncated. Latest modifications are displayed first.',
 			// examples... not used
-			'default' => 50,
-			'value' => 50,
+			'default' => 200,
+			'value' => 200,
 			'source_of_value' => '',
 			'show_in_conf_sample' => false,
 		],
@@ -1457,11 +1457,11 @@ class Config
 			'show_in_conf_sample' => false,
 		],
 		'use_legacy_dbsearch' => [
-			'type' => 'bool',
-			'description' => 'If set, DBSearch will use legacy SQL query generation',
-			'default' => false,
-			'value' => false,
-			'source_of_value' => '',
+			'type'                => 'bool',
+			'description'         => 'Deprecated since 3.1.0, there is now only one dbsearch method.',
+			'default'             => false,
+			'value'               => false,
+			'source_of_value'     => '',
 			'show_in_conf_sample' => false,
 		],
 		'query_cache_enabled' => [
@@ -1550,6 +1550,14 @@ class Config
 			'default' => false,
 			'value' => false,
 			'source_of_value' => '',
+			'show_in_conf_sample' => false,
+		],
+		'setup.launch_button.enabled' => [
+			'type'                => 'bool',
+			'description'         => 'If true displays in the Application Upgrade screen a button allowing to launch the setup in a single click (no more manual config file permission change needed)',
+			'default'             => null,
+			'value'               => false,
+			'source_of_value'     => '',
 			'show_in_conf_sample' => false,
 		],
 	];

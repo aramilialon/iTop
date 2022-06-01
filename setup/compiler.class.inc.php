@@ -451,7 +451,12 @@ class MFCompiler
 					}
 					catch (DOMFormatException $e)
 					{
-						throw new Exception("Failed to process class '$sClass', from '$sModuleRootDir': ".$e->getMessage());
+						$sMessage = "Failed to process class '$sClass', ";
+						if (!empty($sModuleRootDir)) {
+							$sMessage .= "from '$sModuleRootDir': ";
+						}
+						$sMessage .= $e->getMessage();
+						throw new Exception($sMessage);
 					}
 				}
 			}
@@ -2006,10 +2011,12 @@ EOF
 
 			// Note: We can't use ModelFactory::GetField() as the current clas doesn't seem to be loaded yet.
 			$oField = $this->oFactory->GetNodes('field[@id="'.$sStateAttCode.'"]', $oFields)->item(0);
+			if ($oField == null) {
+				throw new DOMFormatException("Non existing attribute '$sStateAttCode'", null, null, $oStateAttribute);
+			}
 			$oValues = $oField->GetUniqueElement('values');
 			$oValueNodes = $oValues->getElementsByTagName('value');
-			foreach($oValueNodes as $oValue)
-			{
+			foreach ($oValueNodes as $oValue) {
 				$sLifecycle .= "		MetaModel::Init_DefineState(\n";
 				$sLifecycle .= "			\"".$oValue->GetText()."\",\n";
 				$sLifecycle .= "			array(\n";
@@ -2979,8 +2986,8 @@ EOF;
 	 */
 	protected function CompileLogo($oBrandingNode, $sTempTargetDir, $sFinalTargetDir, $sNodeName, $sTargetFile)
 	{
-		if (($sIcon = $oBrandingNode->GetChildText($sNodeName)) && (strlen($sIcon) > 0))
-		{
+		$sIcon = trim($oBrandingNode->GetChildText($sNodeName));
+		if (strlen($sIcon) > 0) {
 			$sSourceFile = $sTempTargetDir.'/'.$sIcon;
 			$aIconName=explode(".", $sIcon);
 			$sIconExtension=$aIconName[count($aIconName)-1];
@@ -3032,47 +3039,45 @@ EOF;
 		$sDmStylesheetId = 'datamodel-compiled-scss-rules';
 		$this->WriteFile($sThemesAbsDirPath.$sDmStylesheetFilename, $sDmStylesheetContent);
 
-		// Parsing themes from modules
-		/** @var \DOMNodeList $oModuleThemeNodes */
-		$oModuleThemesNodes = $oBrandingNode->GetNodes('module_themes/module_theme');
-		$aModuleThemesParameters = array(
+		// Parsing theme from common theme node
+		/** @var \MFElement $oThemesCommonNodes */
+		$oThemesCommonNodes = $oBrandingNode->GetUniqueElement('themes_common', false);
+		$aThemesCommonParameters = array(
 			'variables' => array(),
 			'variable_imports' => array(),
 			'utility_imports' => array(),
 			'stylesheets' => array(),
 		);
-		foreach($oModuleThemesNodes as $oModuleTheme) {
-			$sThemeId = $oModuleTheme->getAttribute('id');
-
-
-			/** @var \DOMNodeList $oVariables */
-			$oVariables = $oModuleTheme->GetNodes('variables/variable');
-			foreach ($oVariables as $oVariable) {
+		
+		if($oThemesCommonNodes !== null) {
+			/** @var \DOMNodeList $oThemesCommonVariables */
+			$oThemesCommonVariables = $oThemesCommonNodes->GetNodes('variables/variable');
+			foreach ($oThemesCommonVariables as $oVariable) {
 				$sVariableId = $oVariable->getAttribute('id');
-				$aModuleThemesParameters['variables'][$sVariableId] = $oVariable->GetText();
+				$aThemesCommonParameters['variables'][$sVariableId] = $oVariable->GetText();
 			}
-
-			/** @var \DOMNodeList $oImports */
-			$oImports = $oModuleTheme->GetNodes('imports/import');
-			foreach ($oImports as $oImport) {
+	
+			/** @var \DOMNodeList $oThemesCommonImports */
+			$oThemesCommonImports = $oThemesCommonNodes->GetNodes('imports/import');
+			foreach ($oThemesCommonImports as $oImport) {
 				$sImportId = $oImport->getAttribute('id');
 				$sImportType = $oImport->getAttribute('xsi:type');
 				if ($sImportType === 'variables') {
-					$aModuleThemesParameters['variable_imports'][$sImportId] = $oImport->GetText();
+					$aThemesCommonParameters['variable_imports'][$sImportId] = $oImport->GetText();
 				} elseif ($sImportType === 'utilities') {
-					$aModuleThemesParameters['utility_imports'][$sImportId] = $oImport->GetText();
+					$aThemesCommonParameters['utility_imports'][$sImportId] = $oImport->GetText();
 				} else {
-					SetupLog::Warning('CompileThemes: Module Theme #'.$sThemeId.' has an import (#'.$sImportId.') without explicit xsi:type, it will be ignored. Check Datamodel XML Reference to fix it.');
+					SetupLog::Warning('CompileThemes: Theme common has an import (#'.$sImportId.') without explicit xsi:type, it will be ignored. Check Datamodel XML Reference to fix it.');
 				}
 			}
-
+	
 			// Stylesheets
 			// - Manually added in the XML
-			/** @var \DOMNodeList $oStylesheets */
-			$oStylesheets = $oModuleTheme->GetNodes('stylesheets/stylesheet');
-			foreach ($oStylesheets as $oStylesheet) {
+			/** @var \DOMNodeList $oThemesCommonStylesheets */
+			$oThemesCommonStylesheets = $oThemesCommonNodes->GetNodes('stylesheets/stylesheet');
+			foreach ($oThemesCommonStylesheets as $oStylesheet) {
 				$sStylesheetId = $oStylesheet->getAttribute('id');
-				$aModuleThemesParameters['stylesheets'][$sStylesheetId] = $oStylesheet->GetText();
+				$aThemesCommonParameters['stylesheets'][$sStylesheetId] = $oStylesheet->GetText();
 			}
 		}
 
@@ -3126,8 +3131,8 @@ EOF;
 
 			// - Overload default values with module ones
 			foreach ($aThemeParameters as $sThemeParameterName => $aThemeParameter) {
-				if(array_key_exists($sThemeParameterName, $aModuleThemesParameters)){
-					$aThemeParameters[$sThemeParameterName] = array_merge($aThemeParameter, $aModuleThemesParameters[$sThemeParameterName]);
+				if(array_key_exists($sThemeParameterName, $aThemesCommonParameters)){
+					$aThemeParameters[$sThemeParameterName] = array_merge($aThemeParameter, $aThemesCommonParameters[$sThemeParameterName]);
 				}
 			}
 			

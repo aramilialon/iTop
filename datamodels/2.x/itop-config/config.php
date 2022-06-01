@@ -14,7 +14,6 @@ use Combodo\iTop\Config\Validator\iTopConfigAstValidator;
 use Combodo\iTop\Config\Validator\iTopConfigSyntaxValidator;
 
 require_once(APPROOT.'application/application.inc.php');
-require_once(APPROOT.'application/itopwebpage.class.inc.php');
 require_once(APPROOT.'application/startup.inc.php');
 require_once(APPROOT.'application/loginwebpage.class.inc.php');
 
@@ -189,14 +188,16 @@ try {
 			$oForm->AddSubBlock(InputUIBlockFactory::MakeForHidden('operation', 'save'));
 			$oForm->AddSubBlock(InputUIBlockFactory::MakeForHidden('transaction_id', utils::GetNewTransactionId()));
 
-			// - Cancel button
+			//--- Cancel button
 			$oCancelButton = ButtonUIBlockFactory::MakeForCancel(Dict::S('config-cancel'), 'cancel_button', null, true, 'cancel_button');
 			$oCancelButton->SetOnClickJsCode("return ResetConfig();");
 			$oForm->AddSubBlock($oCancelButton);
 
-			// - Submit button
+			//--- Submit button
 			$oSubmitButton = ButtonUIBlockFactory::MakeForPrimaryAction(Dict::S('config-apply'), null, Dict::S('config-apply'), true, 'submit_button');
 			$oForm->AddSubBlock($oSubmitButton);
+
+			//--- Config editor
 			$oForm->AddSubBlock(InputUIBlockFactory::MakeForHidden('prev_config', $sOriginalConfigEscaped, 'prev_config'));
 			$oForm->AddSubBlock(InputUIBlockFactory::MakeForHidden('new_config', $sConfigEscaped));
 			$oForm->AddHtml("<div id =\"new_config\" style=\"position: absolute; top: ".$iEditorTopMargin."em; bottom: 0; left: 5px; right: 5px;\"></div>");
